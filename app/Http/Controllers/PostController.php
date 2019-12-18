@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Post;
 use App\User;
+use Image;
 
 class PostController extends Controller
 {
@@ -45,13 +46,26 @@ class PostController extends Controller
           'header' => 'required|max:25',
           'body' => 'required|max:50',
           'user_id' => 'required|integer',
+          'featured_image' => 'sometimes|image',
         ]);
 
-        $a = new Post;
-        $a->header =$validatedData['header'];
-        $a->body =$validatedData['body'];
-        $a->user_id =$validatedData['user_id'];
-        $a->save();
+        $post = new Post;
+        $post->header =$validatedData['header'];
+        $post->body =$validatedData['body'];
+        $post->user_id =$validatedData['user_id'];
+
+        if (!empty($validatedData['featured_image'])) {
+          $image = $validatedData['featured_image'];
+          $filename = 'UID'. $post->user_id .'T'.
+          time() .'.'. $image->getClientOriginalExtension();
+          $location = public_path('images/' . $filename);
+          Image::make($image)->resize(256, 256)->save($location);
+          $post->image = $filename;
+        } else {
+          $post->image = 'noimage.png';
+        }
+
+        $post->save();
 
         session()->flash('message', 'Your post was created.');
         return redirect()->route('posts.index');
@@ -104,6 +118,7 @@ class PostController extends Controller
           'header' => 'required|max:25',
           'body' => 'required|max:50',
           'user_id' => 'required|integer',
+          'featured_image' => 'sometimes|image',
         ]);
         $post = Post::findOrFail($id);
         //$post->title = $request->input('title');
@@ -111,6 +126,18 @@ class PostController extends Controller
         $post->header=$validatedData['header'];
         $post->body =$validatedData['body'];
         $post->user_id =$validatedData['user_id'];
+
+        if (!empty($validatedData['featured_image'])) {
+          $image = $validatedData['featured_image'];
+          $filename = 'UID'. $post->user_id .'T'.
+          time() .'.'. $image->getClientOriginalExtension();
+          $location = public_path('images/' . $filename);
+          Image::make($image)->resize(256, 256)->save($location);
+          $post->image = $filename;
+        } else {
+          $post->image = 'noimage.png';
+        }
+
         $post->save();
 
         session()->flash('message', 'Your post was updated.');
@@ -129,6 +156,7 @@ class PostController extends Controller
         //
         $post = Post::findOrFail($id);
         if($post->user_id == auth()->user()->id) {
+          //File::delete(public_path('images/' . $post->filename));
           $post->delete();
           return redirect()->route('posts.index')
             ->with('message', 'Your post was deleted.');

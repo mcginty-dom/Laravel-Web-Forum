@@ -4,6 +4,7 @@
 
 @section('content')
   <ul>
+    <img src="{{ asset('images/' . $post->image) }}">
     <li>Header: {{ $post-> header ?? 'Unknown'}} </li>
     <li>Body: {{ $post-> body ?? 'Unknown'}} </li>
     <li>Created by: {{ $post-> user-> name}} </li>

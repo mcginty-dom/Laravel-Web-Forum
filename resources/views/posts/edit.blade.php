@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
-@section('title', 'Editing a Post')
+@section('title', 'Edit a Post')
 
 @section('content')
-  <form method="POST" action="{{ route('posts.update', $post->id) }}">
+  <form method="POST" action="{{ route('posts.update', $post->id) }}" enctype="multipart/form-data">
     @csrf
     @method('PATCH')
     <p>Header: <input type="text" name="header"
@@ -19,6 +19,9 @@
             >{{ $post->user_id }}</option>
       </select>
       </p>
+      <p>Upload an image:
+        <input type="file" name="featured_image"
+        value="{{ old('image')}}"> </p>
     <input type="submit" value="Submit">
     <a href="{{ route('posts.index') }}"> Return </a>
   </form>
