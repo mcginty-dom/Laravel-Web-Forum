@@ -16,6 +16,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+//Post
 Route::get('posts', 'PostController@index')->name('posts.index');
 
 Route::get('posts/create', 'PostController@create')
@@ -34,9 +35,21 @@ Route::get('posts/{id}/edit', 'PostController@edit')
 Route::patch('posts/{id}/edit', 'PostController@update')
 ->name('posts.update')->middleware('auth');
 
+//Comment
 Route::post('comments/{post_id}', 'CommentController@store')
 ->name('comments.store')->middleware('auth');
 
+Route::delete('comments/{id}', 'CommentController@destroy')
+->name('comments.destroy')->middleware('auth');
+
+Route::get('comments/{id}/delete', 'CommentController@delete')
+->name('comments.delete')->middleware('auth');
+
+Route::get('comments/{id}/edit', 'CommentController@edit')
+->name('comments.edit')->middleware('auth');
+
+Route::patch('comments/{id}/edit', 'CommentController@update')
+->name('comments.update')->middleware('auth');
 
 Auth::routes();
 

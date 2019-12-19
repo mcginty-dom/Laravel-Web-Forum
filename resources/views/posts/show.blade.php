@@ -24,9 +24,22 @@
   </form>
 
   <ul>
+    <p> Total Comments: {{ $post->comments->count() }} </p>
     @foreach($post->comments as $comment)
       <p>User {{$comment->user_id ?? 'Unknown'}} said: </p>
       <p>{{$comment->body ?? 'Unknown'}} </p>
+      <form method="POST"
+        action="{{ route('comments.delete', ['id' => $comment->id]) }}">
+        @csrf
+        @method('GET')
+        <button type="submit">Delete Comment</button>
+      </form>
+      <form method="POST"
+        action="{{ route('comments.edit', ['id' => $comment->id]) }}">
+        @csrf
+        @method('GET')
+        <button type="submit">Edit Comment</button>
+      </form>
     @endforeach
   </ul>
 
@@ -37,11 +50,11 @@
       value="{{ old('body') }}"></p>
     <p>User ID:
       <select name="user_id">
-          <option value="{{ $post->user_id}}"
-            @if ($post->user_id == old('user_id'))
+          <option value="{{ Auth::id() }}"
+            @if (Auth::id() == old('user_id'))
               selected="selected"
             @endif
-            >{{ $post->user_id }}</option>
+            >{{ Auth::id() }}</option>
       </select>
     </p>
     <p>Post ID:

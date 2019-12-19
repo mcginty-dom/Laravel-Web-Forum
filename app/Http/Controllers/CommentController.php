@@ -57,7 +57,7 @@ class CommentController extends Controller
         $comment->save();
 
         session()->flash('message', 'Your comment was created.');
-        return redirect()->route('posts.index');
+        return redirect()->route('posts.show', ['id' => $comment->post_id]);
     }
 
     /**
@@ -80,6 +80,14 @@ class CommentController extends Controller
     public function edit($id)
     {
         //
+        $comment = Comment::findOrFail($id);
+        if($comment->user_id == auth()->user()->id) {
+          return view('comments.edit', ['comment' => $comment]);
+        } else {
+          session()->flash('message',
+          'This comment belongs to another user, you cannot edit this.');
+          return redirect()->route('posts.show', ['id' => $comment->post_id]);
+        }
     }
 
     /**
@@ -92,6 +100,21 @@ class CommentController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $validatedData = $request->validate([
+          'body' => 'required|min:5:|max:50',
+          'user_id' => 'required|integer',
+          'post_id' => 'required|integer',
+        ]);
+
+        $comment = Comment::find($id);
+        $comment->body =$validatedData['body'];
+        $comment->user_id =$validatedData['user_id'];
+        $comment->post_id =$validatedData['post_id'];
+
+        $comment->save();
+
+        session()->flash('message', 'Your comment was edited.');
+        return redirect()->route('posts.show', ['id' => $comment->post_id]);
     }
 
     /**
@@ -103,5 +126,27 @@ class CommentController extends Controller
     public function destroy($id)
     {
         //
+        $comment = Comment::findOrFail($id);
+        if($comment->user_id == auth()->user()->id) {
+          $comment->delete();
+          return redirect()->route('posts.index')
+            ->with('message', 'Your comment was deleted.');
+        } else {
+          session()->flash('message',
+          'This comment belongs to another user, you cannot delete this.');
+          return redirect()->route('posts.index');
+        }
+    }
+
+    public function delete($id)
+    {
+      $comment = Comment::findOrFail($id);
+      if($comment->user_id == auth()->user()->id) {
+        return view('comments.delete', ['comment' => $comment]);
+      } else {
+        session()->flash('message',
+        'This comment belongs to another user, you cannot delete this.');
+        return redirect()->route('posts.show', ['id' => $comment->post_id]);
+      }
     }
 }
