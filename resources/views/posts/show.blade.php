@@ -54,7 +54,7 @@
             @if (Auth::id() == old('user_id'))
               selected="selected"
             @endif
-            >{{ Auth::user()->name }}</option>
+            >{{ Auth::user()->name ?? 'Guest' }}</option>
       </select>
     </p>
     <p>Post ID:
