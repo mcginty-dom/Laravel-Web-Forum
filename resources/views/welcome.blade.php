@@ -83,7 +83,7 @@
 
     <div class="container">
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-8 col-md-offset-2">
           <div class="jumbotron">
             <h1>Welcome, to Blogger! </h1>
             <p class="lead">Feel free to browse the site using the navigation bar above.</p>
