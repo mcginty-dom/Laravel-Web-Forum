@@ -45,7 +45,7 @@ class CommentController extends Controller
         ]);
 
         $user = $validatedData['user_id'];
-        $post = Post::find($post_id);
+        $post = Post::findOrFail($post_id);
 
         $comment = new Comment();
         $comment->body =$validatedData['body'];
@@ -129,12 +129,12 @@ class CommentController extends Controller
         $comment = Comment::findOrFail($id);
         if($comment->user_id == auth()->user()->id) {
           $comment->delete();
-          return redirect()->route('posts.index')
+          return redirect()->route('posts.show', ['id' => $comment->post_id])
             ->with('message', 'Your comment was deleted.');
         } else {
           session()->flash('message',
           'This comment belongs to another user, you cannot delete this.');
-          return redirect()->route('posts.index');
+          return redirect()->route('posts.show', ['id' => $comment->post_id]);
         }
     }
 

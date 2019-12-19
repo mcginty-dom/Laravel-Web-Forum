@@ -46,15 +46,15 @@
   <form method="POST"
     action="{{ route('comments.store', [$post->id]) }}">
     @csrf
-    <p>Body: <input type="text" name="body"
+    <p>Type a comment: <input type="text" name="body"
       value="{{ old('body') }}"></p>
-    <p>User ID:
+    <p>Commenting as:
       <select name="user_id">
           <option value="{{ Auth::id() }}"
             @if (Auth::id() == old('user_id'))
               selected="selected"
             @endif
-            >{{ Auth::id() }}</option>
+            >{{ Auth::user()->name }}</option>
       </select>
     </p>
     <p>Post ID:

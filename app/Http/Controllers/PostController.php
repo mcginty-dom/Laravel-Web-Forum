@@ -99,7 +99,7 @@ class PostController extends Controller
         } else {
           session()->flash('message',
           'This page belongs to another user, you cannot edit this.');
-          return redirect()->route('posts.index');
+          return redirect()->route('posts.show', ['id' => $post->id]);
         }
 
     }
@@ -121,8 +121,6 @@ class PostController extends Controller
           'featured_image' => 'sometimes|image',
         ]);
         $post = Post::findOrFail($id);
-        //$post->title = $request->input('title');
-        //$post->body = $request->input('body');
         $post->header=$validatedData['header'];
         $post->body =$validatedData['body'];
         $post->user_id =$validatedData['user_id'];
@@ -141,7 +139,7 @@ class PostController extends Controller
         $post->save();
 
         session()->flash('message', 'Your post was updated.');
-        return redirect()->route('posts.index');
+        return redirect()->route('posts.show', ['id' => $post->id]);
 
     }
 
@@ -163,7 +161,7 @@ class PostController extends Controller
         } else {
           session()->flash('message',
           'This page belongs to another user, you cannot delete this.');
-          return redirect()->route('posts.index');
+          return redirect()->route('posts.show', ['id' => $post->id]);
         }
     }
 }

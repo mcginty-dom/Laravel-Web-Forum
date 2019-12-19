@@ -11,5 +11,6 @@ $factory->define(Post::class, function (Faker $faker) {
         'header' => $faker->sentence($nbWords = 5, $variableNbWords = true),
         'body' => $faker->realText($maxNbChars = 50, $indexSize = 2),
         'user_id' => App\User::inRandomOrder()->first()->id,
+        'image' => "noimage.png",
     ];
 });
