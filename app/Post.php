@@ -15,7 +15,7 @@ class Post extends Model
 
     public function postCreationTime()
     {
-      return $this->belongsTo('App\PostCreationTime')
+      return $this->belongsTo('App\PostCreationTime');
     }
 
     public function comments()
