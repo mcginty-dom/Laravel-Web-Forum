@@ -13,8 +13,22 @@ class Post extends Model
       return $this->belongsTo('App\User');
     }
 
+    /*
+    public function timeCreated()
+    {
+      return $this->hasOne('App\TimeCreated')
+    }
+    */
+
     public function comments()
     {
       return $this->hasMany('App\Comment');
     }
+
+    /*
+    public function tags()
+    {
+      return $this->hasMany('App\Tag');
+    }
+    */
 }
