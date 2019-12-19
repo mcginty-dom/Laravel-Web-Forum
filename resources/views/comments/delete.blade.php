@@ -7,7 +7,7 @@
     <div class="row">
       <div class="col-md-8 col-md-offset-2">
         <h1>Are you sure you want to delete your comment?</h1>
-        <p>User {{$comment->user_id ?? 'Unknown'}} said: </p>
+        <p>{{Auth::user()->name ?? 'Unknown'}} said: </p>
         <p>{{$comment->body ?? 'Unknown'}} </p>
         <form method="POST"
           action="{{ route('comments.destroy', ['id' => $comment->id]) }}">
