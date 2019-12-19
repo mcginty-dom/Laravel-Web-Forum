@@ -22,5 +22,38 @@
     @method('GET')
     <button type="submit">Edit Post</button>
   </form>
+
+  <ul>
+    @foreach($post->comments as $comment)
+      <p>User {{$comment->user_id ?? 'Unknown'}} said: </p>
+      <p>{{$comment->body ?? 'Unknown'}} </p>
+    @endforeach
+  </ul>
+
+  <form method="POST"
+    action="{{ route('comments.store', [$post->id]) }}">
+    @csrf
+    <p>Body: <input type="text" name="body"
+      value="{{ old('body') }}"></p>
+    <p>User ID:
+      <select name="user_id">
+          <option value="{{ $post->user_id}}"
+            @if ($post->user_id == old('user_id'))
+              selected="selected"
+            @endif
+            >{{ $post->user_id }}</option>
+      </select>
+    </p>
+    <p>Post ID:
+      <select name="post_id">
+          <option value="{{ $post->id}}"
+            @if ($post->id == old('post_id'))
+              selected="selected"
+            @endif
+            >{{ $post->id }}</option>
+      </select>
+    </p>
+    <button type="submit">Submit Comment</button>
+  </form>
   <p><a href="{{ route('posts.index') }}"> Return </a></p>
 @endsection

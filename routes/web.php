@@ -34,6 +34,10 @@ Route::get('posts/{id}/edit', 'PostController@edit')
 Route::patch('posts/{id}/edit', 'PostController@update')
 ->name('posts.update')->middleware('auth');
 
+Route::post('comments/{post_id}', 'CommentController@store')
+->name('comments.store')->middleware('auth');
+
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
