@@ -1,23 +1,23 @@
 @extends('layouts.app')
 
-@section('title', 'Edit a Comment')
+@section('title', 'Edit your Comment')
 
 @section('content')
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
-      <h1>Edit comment</h1>
+      <h1>Edit your Comment</h1>
       <form method="POST" action="{{ route('comments.update', $comment->id) }}" enctype="multipart/form-data">
         @csrf
         @method('PATCH')
         <p>Body: <input type="text" name="body"
           value="{{ old('body') }}"></p>
-        <p>User ID:
+        <p>Commenting as:
           <select name="user_id">
               <option value="{{ Auth::id() }}"
                 @if (Auth::id() == old('user_id'))
                   selected="selected"
                 @endif
-                >{{ Auth::id() }}</option>
+                >{{ $comment->user->name }}</option>
           </select>
         </p>
         <p>Post ID:
@@ -30,7 +30,9 @@
           </select>
         </p>
         <input type="submit" value="Submit">
-        <a href="{{ route('posts.index') }}"> Return </a>
+        <p><a class="btn btn-primary btn-lg"
+          href="{{ route('posts.show', ['id' => $comment->post_id]) }}" role="button">
+          Return </a></p>
       </form>
     </div>
   </div>

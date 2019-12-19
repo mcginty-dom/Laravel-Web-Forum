@@ -54,3 +54,4 @@ Route::patch('comments/{id}/edit', 'CommentController@update')
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::redirect('/home', '/');

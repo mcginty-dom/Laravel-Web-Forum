@@ -1,20 +1,24 @@
 @extends('layouts.app')
 
-@section('title', 'Edit a Comment')
+@section('title', 'Confirm Deletion of Comment')
 
 @section('content')
-  <div class="row">
-    <div class="col-md-8 col-md-offset-2">
-      <h1>Are you sure you want to delete this comment?</h1>
-      <p>User {{$comment->user_id ?? 'Unknown'}} said: </p>
-      <p>{{$comment->body ?? 'Unknown'}} </p>
-      <form method="POST"
-        action="{{ route('comments.destroy', ['id' => $comment->id]) }}">
-        @csrf
-        @method('DELETE')
-        <button type="submit">Confirm</button>
-      </form>
-      <p><a href="{{ route('posts.index') }}"> Return </a></p>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <h1>Are you sure you want to delete your comment?</h1>
+        <p>User {{$comment->user_id ?? 'Unknown'}} said: </p>
+        <p>{{$comment->body ?? 'Unknown'}} </p>
+        <form method="POST"
+          action="{{ route('comments.destroy', ['id' => $comment->id]) }}">
+          @csrf
+          @method('DELETE')
+          <button type="submit">Confirm</button>
+        </form>
+        <p><a class="btn btn-primary btn-lg"
+          href="{{ route('posts.show', ['id' => $comment->post_id]) }}" role="button">
+          Return </a></p>
+      </div>
     </div>
   </div>
 @endsection

@@ -1,11 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
+<!doctype html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <title>{{ config('app.name', 'Laravel') }}</title>
     <!-- The above 3 meta tags *must* come first in the head; any other head
     content must come *after* these tags -->
+    <!-- Fonts -->
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <title>Blogger</title>
 
     <!-- Bootstrap -->
@@ -29,7 +36,7 @@
       <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-          <a class="navbar-brand" href="#">Blogger</a>
+          <a class="navbar-brand" href="/">Blogger</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -38,6 +45,7 @@
             <li class="active"><a href="/">Home
               <span class="sr-only">(current)</span></a></li>
             <li><a href="/posts">Posts</a></li>
+            <li><a href="{{ route('posts.create') }}">Create a Post</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             @guest
